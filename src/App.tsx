@@ -32,7 +32,7 @@ function App() {
         className="absolute top-0 left-0 w-full object-cover animate-soft-zoom origin-center z-0"
         style={{ height: '100vh', objectPosition: 'center 52%', filter: 'saturate(1.2) brightness(0.7)' }}
       >
-        <source src="/hero-bg.mp4" type="video/mp4" />
+        <source src={`${import.meta.env.BASE_URL}hero-bg.mp4`} type="video/mp4" />
       </video>
 
       {/* Dark overlay */}

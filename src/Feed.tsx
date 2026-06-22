@@ -11,44 +11,71 @@ interface Entry {
   gradient: string
 }
 
-const moodGradients: Record<string, string> = {
-  grateful: 'linear-gradient(135deg, #D4507A 0%, #E8836B 50%, #C14A3A 100%)',
-  thoughtful: 'linear-gradient(135deg, #3A4A6B 0%, #5A6B8A 50%, #7A8BA8 100%)',
-  excited: 'linear-gradient(135deg, #E8836B 0%, #D4507A 50%, #C14A3A 100%)',
-  calm: 'linear-gradient(135deg, #4A5A7B 0%, #5A6B8A 50%, #7A8BA8 100%)',
-  happy: 'linear-gradient(135deg, #E8836B 0%, #D4A07B 50%, #C4956A 100%)',
-  sad: 'linear-gradient(135deg, #2A3A5B 0%, #3A4A6B 50%, #5A6B8A 100%)',
-  default: 'linear-gradient(135deg, #1A1A2E 0%, #16213E 50%, #0F3460 100%)',
-}
+const cardGradients = [
+  'linear-gradient(145deg, rgba(212,80,122,0.5) 0%, rgba(232,131,107,0.35) 50%, rgba(193,74,58,0.4) 100%)',
+  'linear-gradient(145deg, rgba(77,168,218,0.4) 0%, rgba(43,143,212,0.3) 50%, rgba(27,108,168,0.35) 100%)',
+  'linear-gradient(145deg, rgba(232,131,107,0.45) 0%, rgba(212,80,122,0.35) 50%, rgba(255,176,124,0.3) 100%)',
+  'linear-gradient(145deg, rgba(13,59,102,0.5) 0%, rgba(43,143,212,0.3) 50%, rgba(168,216,234,0.2) 100%)',
+  'linear-gradient(145deg, rgba(193,18,31,0.35) 0%, rgba(212,80,122,0.3) 50%, rgba(232,131,107,0.25) 100%)',
+  'linear-gradient(145deg, rgba(168,216,234,0.3) 0%, rgba(77,168,218,0.25) 50%, rgba(43,143,212,0.3) 100%)',
+]
 
 const sampleEntries: Entry[] = [
   {
-    id: '3',
-    date: new Date(2026, 5, 15, 16, 42),
-    text: 'Hoy fue un día hermoso. Caminé por el parque y vi cómo las hojas empezaban a cambiar de color. Me sentí viva.',
+    id: '6',
+    date: new Date(2026, 5, 20, 10, 15),
+    text: 'Mañana de domingo con café y lluvia. El mundo se detuvo un rato.',
+    mood: { label: 'En calma', color: '#4DA8DA' },
+    photos: [],
+    location: 'Casa',
+    wordCount: 14,
+    gradient: cardGradients[1],
+  },
+  {
+    id: '5',
+    date: new Date(2026, 5, 19, 18, 30),
+    text: 'Pensé mucho en lo que me dijo mamá. A veces las verdades duelen pero curan.',
+    mood: { label: 'Pensativa', color: '#7A8BA8' },
+    photos: [],
+    wordCount: 16,
+    gradient: cardGradients[3],
+  },
+  {
+    id: '4',
+    date: new Date(2026, 5, 17, 21, 0),
+    text: 'Noche de playlist nueva y velas. Me estoy permitiendo disfrutar la soledad.',
     mood: { label: 'Agradecida', color: '#D4507A' },
     photos: [],
+    wordCount: 13,
+    gradient: cardGradients[0],
+  },
+  {
+    id: '3',
+    date: new Date(2026, 5, 15, 16, 42),
+    text: 'Caminé por el parque y vi cómo las hojas cambiaban de color. Me sentí viva.',
+    mood: { label: 'Feliz', color: '#E8836B' },
+    photos: [],
     location: 'Palermo, Buenos Aires',
-    wordCount: 22,
-    gradient: moodGradients.grateful,
+    wordCount: 15,
+    gradient: cardGradients[2],
   },
   {
     id: '2',
     date: new Date(2026, 5, 14, 22, 15),
-    text: 'No puedo dormir. Hay algo que me inquieta pero no logro identificar qué es. Tal vez mañana, con la luz del día, se aclare.',
-    mood: { label: 'Pensativa', color: '#7A8BA8' },
+    text: 'No puedo dormir. Hay algo que me inquieta pero no logro identificar qué es.',
+    mood: { label: 'Inquieta', color: '#2B8FD4' },
     photos: [],
-    wordCount: 26,
-    gradient: moodGradients.thoughtful,
+    wordCount: 15,
+    gradient: cardGradients[4],
   },
   {
     id: '1',
     date: new Date(2026, 5, 13, 9, 30),
-    text: 'Primera entrada en mi diario. Decidí que este va a ser mi espacio seguro, mi rincón. Voy a escribir sin filtros.',
+    text: 'Primera entrada en mi diario. Este va a ser mi espacio seguro, mi rincón.',
     mood: { label: 'Emocionada', color: '#E8836B' },
     photos: [],
-    wordCount: 21,
-    gradient: moodGradients.excited,
+    wordCount: 14,
+    gradient: cardGradients[5],
   },
 ]
 
@@ -74,34 +101,6 @@ export default function Feed({ onNewEntry }: FeedProps) {
   const greeting = now.getHours() < 12 ? 'Buenos días' : now.getHours() < 18 ? 'Buenas tardes' : 'Buenas noches'
   const todayPrompt = prompts[now.getDate() % prompts.length]
 
-  const formatDate = (date: Date) => {
-    const today = new Date()
-    const yesterday = new Date(today)
-    yesterday.setDate(yesterday.getDate() - 1)
-    if (date.toDateString() === today.toDateString()) return 'Hoy'
-    if (date.toDateString() === yesterday.toDateString()) return 'Ayer'
-    return date.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'short' })
-  }
-
-  const formatTime = (date: Date) =>
-    date.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })
-
-  const groupByDate = (items: Entry[]) => {
-    const groups: { label: string; entries: Entry[] }[] = []
-    let currentLabel = ''
-    for (const entry of items) {
-      const label = formatDate(entry.date)
-      if (label !== currentLabel) {
-        groups.push({ label, entries: [entry] })
-        currentLabel = label
-      } else {
-        groups[groups.length - 1].entries.push(entry)
-      }
-    }
-    return groups
-  }
-
-  const grouped = groupByDate(entries)
   const streak = 3
 
   return (
@@ -204,67 +203,56 @@ export default function Feed({ onNewEntry }: FeedProps) {
         </div>
       </div>
 
-      {/* Entries feed */}
-      <div className="px-6 relative z-10">
-        {grouped.map((group) => (
-          <div key={group.label} className="mb-5">
-            <div className="flex items-center gap-3 mb-3">
-              <span className="text-[0.7rem] font-medium text-white/20 uppercase tracking-widest">{group.label}</span>
-              <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.04)' }} />
-            </div>
-            <div className="flex flex-col gap-3">
-              {group.entries.map((entry) => (
-                <button
-                  key={entry.id}
-                  className="w-full text-left rounded-3xl overflow-hidden transition-all duration-200 active:scale-[0.98]"
-                  style={{
-                    border: '1px solid rgba(255,255,255,0.06)',
-                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.06)',
-                  }}
-                >
-                  {/* Gradient top section */}
-                  <div
-                    className="relative px-5 pt-4 pb-3"
-                    style={{ background: entry.gradient }}
-                  >
-                    {/* Blur blob */}
-                    <div
-                      className="absolute top-0 right-0 w-28 h-28 rounded-full opacity-25"
-                      style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)', filter: 'blur(15px)' }}
-                    />
-                    <div className="flex items-center justify-between relative z-10">
-                      <div className="flex items-center gap-2">
-                        {entry.mood && (
-                          <span className="w-2.5 h-2.5 rounded-full" style={{ background: entry.mood.color }} />
-                        )}
-                        <span className="text-[0.75rem] font-medium text-white/60">{entry.mood?.label}</span>
-                      </div>
-                      <span className="text-[0.7rem] text-white/35">{formatTime(entry.date)}</span>
-                    </div>
-                  </div>
+      {/* Entries grid */}
+      <div className="px-4 relative z-10">
+        <div className="grid grid-cols-2 gap-3">
+          {entries.map((entry) => (
+            <button
+              key={entry.id}
+              className="relative aspect-square text-left rounded-[20px] overflow-hidden transition-all duration-200 active:scale-[0.96]"
+              style={{
+                background: entry.gradient,
+                border: '1px solid rgba(255,255,255,0.1)',
+                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.12), 0 4px 20px rgba(0,0,0,0.3)',
+              }}
+            >
+              {/* Blur blobs */}
+              <div
+                className="absolute -top-6 -right-6 w-24 h-24 rounded-full opacity-40"
+                style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%)', filter: 'blur(20px)' }}
+              />
+              <div
+                className="absolute -bottom-4 -left-4 w-20 h-20 rounded-full opacity-30"
+                style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)', filter: 'blur(16px)' }}
+              />
 
-                  {/* Dark content section */}
-                  <div
-                    className="px-5 pt-3 pb-4"
-                    style={{ background: 'rgba(5,5,8,0.75)', backdropFilter: 'blur(8px)' }}
-                  >
-                    <p className="text-[0.88rem] leading-relaxed text-white/50 line-clamp-2">
-                      {entry.text}
-                    </p>
-                    {entry.location && (
-                      <div className="flex items-center gap-1 mt-2.5 text-[0.65rem] text-white/20">
-                        <svg width="8" height="10" viewBox="0 0 8 10" fill="none">
-                          <path d="M4 0C1.8 0 0 1.7 0 3.8C0 6.7 4 10 4 10S8 6.7 8 3.8C8 1.7 6.2 0 4 0Z" fill="currentColor" opacity="0.4" />
-                        </svg>
-                        {entry.location}
-                      </div>
+              {/* Glass overlay */}
+              <div
+                className="absolute inset-0"
+                style={{ background: 'linear-gradient(180deg, transparent 0%, rgba(5,5,8,0.3) 60%, rgba(5,5,8,0.6) 100%)' }}
+              />
+
+              {/* Content */}
+              <div className="relative z-10 flex flex-col justify-between h-full p-4">
+                <div>
+                  <div className="flex items-center gap-1.5 mb-1">
+                    {entry.mood && (
+                      <span className="w-2 h-2 rounded-full" style={{ background: entry.mood.color, boxShadow: `0 0 6px ${entry.mood.color}` }} />
                     )}
+                    <span className="text-[0.65rem] font-medium text-white/50">{entry.mood?.label}</span>
                   </div>
-                </button>
-              ))}
-            </div>
-          </div>
-        ))}
+                  <span className="text-[0.6rem] text-white/30">
+                    {entry.date.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })}
+                  </span>
+                </div>
+
+                <p className="text-[0.8rem] leading-[1.35] text-white/75 line-clamp-3">
+                  {entry.text}
+                </p>
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Tab bar */}

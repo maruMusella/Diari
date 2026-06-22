@@ -1,4 +1,4 @@
-const CACHE = 'diari-v1'
+const CACHE = 'diari-v2'
 
 self.addEventListener('install', e => {
   self.skipWaiting()

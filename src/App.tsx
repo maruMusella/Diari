@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import Onboarding from './Onboarding'
 import EntryEditor from './EntryEditor'
 import Feed from './Feed'
@@ -8,6 +8,27 @@ type Screen = 'hero' | 'onboarding' | 'feed' | 'editor'
 
 function App() {
   const [screen, setScreen] = useState<Screen>('hero')
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  const tryPlay = useCallback(() => {
+    const v = videoRef.current
+    if (v && v.paused) {
+      v.muted = true
+      v.play().catch(() => {})
+    }
+  }, [])
+
+  useEffect(() => {
+    tryPlay()
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') tryPlay()
+    })
+    window.addEventListener('focus', tryPlay)
+    document.addEventListener('touchstart', tryPlay, { once: true })
+    return () => {
+      window.removeEventListener('focus', tryPlay)
+    }
+  }, [tryPlay])
 
   if (screen === 'onboarding') {
     return <Onboarding onComplete={() => setScreen('editor')} />
@@ -25,12 +46,17 @@ function App() {
     <div className="relative min-h-screen w-full overflow-hidden flex flex-col" style={{ background: '#050508' }}>
       {/* Video — absolute, covers top portion */}
       <video
+        ref={videoRef}
         autoPlay
         loop
         muted
         playsInline
+        // @ts-expect-error webkit vendor attribute for iOS
+        webkit-playsinline="true"
+        preload="auto"
         className="absolute top-0 left-0 w-full object-cover animate-soft-zoom origin-center z-0"
         style={{ height: '100vh', objectPosition: 'center 52%', filter: 'saturate(1.2) brightness(0.7)' }}
+        onLoadedData={tryPlay}
       >
         <source src={`${import.meta.env.BASE_URL}hero-bg.mp4`} type="video/mp4" />
       </video>

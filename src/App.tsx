@@ -51,8 +51,6 @@ function App() {
         loop
         muted
         playsInline
-        // @ts-expect-error webkit vendor attribute for iOS
-        webkit-playsinline="true"
         preload="auto"
         className="absolute top-0 left-0 w-full object-cover animate-soft-zoom origin-center z-0"
         style={{ height: '100vh', objectPosition: 'center 52%', filter: 'saturate(1.2) brightness(0.7)' }}

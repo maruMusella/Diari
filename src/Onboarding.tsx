@@ -91,23 +91,23 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
           <div className="flex-1 flex flex-col items-center justify-center text-center animate-fade-rise relative z-10">
               <h1
                 className="text-[2.2rem] leading-[1.05] tracking-[-1px] text-white mb-4"
-                style={{ fontFamily: "'Libre Baskerville', serif", textShadow: '0 2px 20px rgba(0,0,0,0.6)' }}
+                style={{ fontFamily: "'Libre Baskerville', serif" }}
               >
                 Bienvenida a diari
               </h1>
-              <p className="text-[0.95rem] leading-relaxed text-white/80 max-w-[300px]" style={{ textShadow: '0 1px 12px rgba(0,0,0,0.5)' }}>
+              <p className="text-[0.95rem] leading-relaxed text-white/80 max-w-[300px]">
                 Tu espacio íntimo para escribir, recordar y redescubrir los momentos que importan.
               </p>
               <div className="mt-10 flex flex-col items-center gap-2.5">
-                <div className="flex items-center gap-2.5 text-xs text-white/60" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.5)' }}>
+                <div className="flex items-center gap-2.5 text-xs text-white/60">
                   <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.5)' }} />
                   Sin cuentas. Sin contraseñas.
                 </div>
-                <div className="flex items-center gap-2.5 text-xs text-white/60" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.5)' }}>
+                <div className="flex items-center gap-2.5 text-xs text-white/60">
                   <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.5)' }} />
                   Tus datos viven en tu dispositivo.
                 </div>
-                <div className="flex items-center gap-2.5 text-xs text-white/60" style={{ textShadow: '0 1px 8px rgba(0,0,0,0.5)' }}>
+                <div className="flex items-center gap-2.5 text-xs text-white/60">
                   <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.5)' }} />
                   Privado por diseño.
                 </div>

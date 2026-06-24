@@ -75,19 +75,13 @@ function App() {
       <div className="absolute z-[2] w-[350px] h-[350px] rounded-full opacity-[0.08]" style={{ top: '45vh', right: '-100px', background: 'radial-gradient(circle, #E8836B 0%, #C14A3A 40%, transparent 70%)', filter: 'blur(70px)' }} />
 
       {/* Navigation */}
-      <nav className="relative z-10 flex items-center justify-between px-6 pt-14 pb-4">
+      <nav className="relative z-10 flex items-center px-6 pt-14 pb-4">
         <h1
           className="text-[1.5rem] tracking-tight text-white/90"
           style={{ fontFamily: "'Libre Baskerville', serif" }}
         >
           diari
         </h1>
-        <button
-          onClick={() => setScreen('onboarding')}
-          className="liquid-glass rounded-full px-5 py-2 text-sm text-white/70 transition-all duration-200 hover:scale-[1.03] active:scale-[0.97]"
-        >
-          Iniciar
-        </button>
       </nav>
 
       {/* Spacer — pushes content below video */}

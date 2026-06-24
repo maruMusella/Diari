@@ -67,15 +67,8 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
         />
       )}
 
-      {/* Skip button */}
-      <div className="relative z-10 flex justify-end px-6 pt-14 pb-2">
-        <button
-          onClick={onComplete}
-          className="text-sm text-white/30 transition-colors hover:text-white/60"
-        >
-          Empezar ya
-        </button>
-      </div>
+      {/* Top spacer */}
+      <div className="relative z-10 px-6 pt-14 pb-2" />
 
       {/* Progress dots */}
       <div className="flex justify-center gap-2 py-4">
@@ -324,7 +317,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
         )}
 
         {/* Bottom navigation */}
-        <div className="flex items-center gap-3 mt-8">
+        <div className="flex items-center gap-3 mt-8 relative z-10">
           {step > 0 && (
             <button
               onClick={back}
@@ -335,16 +328,25 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
               </svg>
             </button>
           )}
-          <button
-            onClick={next}
-            className="flex-1 rounded-full py-4 text-[0.95rem] text-black font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-            style={{
-              background: 'rgba(255,255,255,0.92)',
-              boxShadow: '0 4px 20px rgba(255,255,255,0.08), 0 0 40px rgba(212,80,122,0.08)',
-            }}
-          >
-            {step === totalSteps - 1 ? 'Escribir mi primera entrada' : 'Continuar'}
-          </button>
+          {step === 0 ? (
+            <button
+              onClick={onComplete}
+              className="flex-1 liquid-glass rounded-full py-4 text-[0.95rem] text-white/90 font-medium transition-all duration-200 active:scale-[0.98] cursor-pointer"
+            >
+              Empezar ya
+            </button>
+          ) : (
+            <button
+              onClick={next}
+              className="flex-1 rounded-full py-4 text-[0.95rem] text-black font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+              style={{
+                background: 'rgba(255,255,255,0.92)',
+                boxShadow: '0 4px 20px rgba(255,255,255,0.08), 0 0 40px rgba(212,80,122,0.08)',
+              }}
+            >
+              {step === totalSteps - 1 ? 'Escribir mi primera entrada' : 'Continuar'}
+            </button>
+          )}
         </div>
       </div>
     </div>

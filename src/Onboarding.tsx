@@ -56,21 +56,15 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
         </>
       )}
       {step === 0 && (
-        <>
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `url(${import.meta.env.BASE_URL}onboarding-bg.png)`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              opacity: 0.6,
-            }}
-          />
-          <div
-            className="absolute inset-0"
-            style={{ background: 'linear-gradient(180deg, rgba(5,5,8,0.7) 0%, rgba(5,5,8,0.2) 25%, rgba(5,5,8,0.15) 45%, rgba(5,5,8,0.5) 75%, rgba(5,5,8,0.95) 100%)' }}
-          />
-        </>
+        <div
+          className="absolute"
+          style={{
+            inset: '-40px',
+            backgroundImage: `url(${import.meta.env.BASE_URL}onboarding-bg.png)`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
       )}
 
       {/* Skip button */}

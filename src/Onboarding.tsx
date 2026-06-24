@@ -49,8 +49,29 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
   return (
     <div className="relative min-h-screen w-full flex flex-col overflow-hidden" style={{ background: '#050508' }}>
       {/* Ambient nebula */}
-      <div className="absolute w-[500px] h-[500px] rounded-full opacity-[0.1]" style={{ top: '-150px', right: '-200px', background: 'radial-gradient(circle, #D4507A 0%, #8B2252 40%, transparent 70%)', filter: 'blur(100px)' }} />
-      <div className="absolute w-[400px] h-[400px] rounded-full opacity-[0.06]" style={{ bottom: '50px', left: '-150px', background: 'radial-gradient(circle, #E8836B 0%, #C14A3A 40%, transparent 70%)', filter: 'blur(80px)' }} />
+      {step !== 0 && (
+        <>
+          <div className="absolute w-[500px] h-[500px] rounded-full opacity-[0.1]" style={{ top: '-150px', right: '-200px', background: 'radial-gradient(circle, #D4507A 0%, #8B2252 40%, transparent 70%)', filter: 'blur(100px)' }} />
+          <div className="absolute w-[400px] h-[400px] rounded-full opacity-[0.06]" style={{ bottom: '50px', left: '-150px', background: 'radial-gradient(circle, #E8836B 0%, #C14A3A 40%, transparent 70%)', filter: 'blur(80px)' }} />
+        </>
+      )}
+      {step === 0 && (
+        <>
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `url(${import.meta.env.BASE_URL}onboarding-bg.png)`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              opacity: 0.6,
+            }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{ background: 'linear-gradient(180deg, rgba(5,5,8,0.7) 0%, rgba(5,5,8,0.2) 25%, rgba(5,5,8,0.15) 45%, rgba(5,5,8,0.5) 75%, rgba(5,5,8,0.95) 100%)' }}
+          />
+        </>
+      )}
 
       {/* Skip button */}
       <div className="relative z-10 flex justify-end px-6 pt-14 pb-2">
@@ -80,23 +101,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
       <div className="flex-1 flex flex-col px-6 pb-8">
         {/* Step 0: Welcome */}
         {step === 0 && (
-          <div className="flex-1 flex flex-col items-center justify-center text-center animate-fade-rise relative">
-            {/* Background image */}
-            <div
-              className="absolute inset-0 -mx-6 -mb-8"
-              style={{
-                backgroundImage: `url(${import.meta.env.BASE_URL}onboarding-bg.png)`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                opacity: 0.6,
-              }}
-            />
-            <div
-              className="absolute inset-0 -mx-6 -mb-8"
-              style={{ background: 'linear-gradient(180deg, rgba(5,5,8,0.4) 0%, rgba(5,5,8,0.2) 40%, rgba(5,5,8,0.6) 80%, rgba(5,5,8,0.95) 100%)' }}
-            />
-
-            <div className="relative z-10">
+          <div className="flex-1 flex flex-col items-center justify-center text-center animate-fade-rise relative z-10">
               <h1
                 className="text-[2.2rem] leading-[1.05] tracking-[-1px] text-white mb-4"
                 style={{ fontFamily: "'Libre Baskerville', serif" }}
@@ -120,7 +125,6 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                   Privado por diseño.
                 </div>
               </div>
-            </div>
           </div>
         )}
 

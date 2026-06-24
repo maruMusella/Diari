@@ -80,28 +80,45 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
       <div className="flex-1 flex flex-col px-6 pb-8">
         {/* Step 0: Welcome */}
         {step === 0 && (
-          <div className="flex-1 flex flex-col items-center justify-center text-center animate-fade-rise">
-            <h1
-              className="text-[2.2rem] leading-[1.05] tracking-[-1px] text-white mb-4"
-              style={{ fontFamily: "'Libre Baskerville', serif" }}
-            >
-              Bienvenida a diari
-            </h1>
-            <p className="text-[0.95rem] leading-relaxed text-white/45 max-w-[300px]">
-              Tu espacio íntimo para escribir, recordar y redescubrir los momentos que importan.
-            </p>
-            <div className="mt-10 flex flex-col items-center gap-2.5">
-              <div className="flex items-center gap-2.5 text-xs text-white/35">
-                <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.3)' }} />
-                Sin cuentas. Sin contraseñas.
-              </div>
-              <div className="flex items-center gap-2.5 text-xs text-white/35">
-                <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.3)' }} />
-                Tus datos viven en tu dispositivo.
-              </div>
-              <div className="flex items-center gap-2.5 text-xs text-white/35">
-                <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.3)' }} />
-                Privado por diseño.
+          <div className="flex-1 flex flex-col items-center justify-center text-center animate-fade-rise relative">
+            {/* Background image */}
+            <div
+              className="absolute inset-0 -mx-6 -mb-8"
+              style={{
+                backgroundImage: `url(${import.meta.env.BASE_URL}onboarding-bg.png)`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                opacity: 0.6,
+              }}
+            />
+            <div
+              className="absolute inset-0 -mx-6 -mb-8"
+              style={{ background: 'linear-gradient(180deg, rgba(5,5,8,0.4) 0%, rgba(5,5,8,0.2) 40%, rgba(5,5,8,0.6) 80%, rgba(5,5,8,0.95) 100%)' }}
+            />
+
+            <div className="relative z-10">
+              <h1
+                className="text-[2.2rem] leading-[1.05] tracking-[-1px] text-white mb-4"
+                style={{ fontFamily: "'Libre Baskerville', serif" }}
+              >
+                Bienvenida a diari
+              </h1>
+              <p className="text-[0.95rem] leading-relaxed text-white/45 max-w-[300px]">
+                Tu espacio íntimo para escribir, recordar y redescubrir los momentos que importan.
+              </p>
+              <div className="mt-10 flex flex-col items-center gap-2.5">
+                <div className="flex items-center gap-2.5 text-xs text-white/35">
+                  <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.3)' }} />
+                  Sin cuentas. Sin contraseñas.
+                </div>
+                <div className="flex items-center gap-2.5 text-xs text-white/35">
+                  <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.3)' }} />
+                  Tus datos viven en tu dispositivo.
+                </div>
+                <div className="flex items-center gap-2.5 text-xs text-white/35">
+                  <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.3)' }} />
+                  Privado por diseño.
+                </div>
               </div>
             </div>
           </div>

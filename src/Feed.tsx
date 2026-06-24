@@ -8,16 +8,58 @@ interface Entry {
   photos: string[]
   location?: string
   wordCount: number
-  gradient: string
+  styleIndex: number
 }
 
-const cardGradients = [
-  'linear-gradient(145deg, rgba(212,80,122,0.5) 0%, rgba(232,131,107,0.35) 50%, rgba(193,74,58,0.4) 100%)',
-  'linear-gradient(145deg, rgba(77,168,218,0.4) 0%, rgba(43,143,212,0.3) 50%, rgba(27,108,168,0.35) 100%)',
-  'linear-gradient(145deg, rgba(232,131,107,0.45) 0%, rgba(212,80,122,0.35) 50%, rgba(255,176,124,0.3) 100%)',
-  'linear-gradient(145deg, rgba(13,59,102,0.5) 0%, rgba(43,143,212,0.3) 50%, rgba(168,216,234,0.2) 100%)',
-  'linear-gradient(145deg, rgba(193,18,31,0.35) 0%, rgba(212,80,122,0.3) 50%, rgba(232,131,107,0.25) 100%)',
-  'linear-gradient(145deg, rgba(168,216,234,0.3) 0%, rgba(77,168,218,0.25) 50%, rgba(43,143,212,0.3) 100%)',
+const cardStyles = [
+  {
+    bg: '#0A0508',
+    blobs: [
+      { color: 'rgba(220,50,50,0.7)', size: '70%', x: '60%', y: '40%' },
+      { color: 'rgba(255,140,80,0.4)', size: '50%', x: '80%', y: '30%' },
+      { color: 'rgba(180,30,60,0.5)', size: '60%', x: '30%', y: '60%' },
+    ],
+  },
+  {
+    bg: '#060810',
+    blobs: [
+      { color: 'rgba(40,100,200,0.6)', size: '65%', x: '50%', y: '50%' },
+      { color: 'rgba(100,180,240,0.35)', size: '50%', x: '75%', y: '25%' },
+      { color: 'rgba(20,60,140,0.5)', size: '55%', x: '25%', y: '70%' },
+    ],
+  },
+  {
+    bg: '#0A0506',
+    blobs: [
+      { color: 'rgba(230,80,60,0.65)', size: '60%', x: '45%', y: '55%' },
+      { color: 'rgba(255,180,120,0.4)', size: '45%', x: '70%', y: '25%' },
+      { color: 'rgba(200,40,80,0.45)', size: '55%', x: '20%', y: '40%' },
+    ],
+  },
+  {
+    bg: '#050810',
+    blobs: [
+      { color: 'rgba(60,130,210,0.55)', size: '70%', x: '55%', y: '45%' },
+      { color: 'rgba(150,200,240,0.3)', size: '40%', x: '80%', y: '20%' },
+      { color: 'rgba(30,80,160,0.5)', size: '50%', x: '20%', y: '65%' },
+    ],
+  },
+  {
+    bg: '#0A0408',
+    blobs: [
+      { color: 'rgba(200,30,70,0.6)', size: '65%', x: '40%', y: '50%' },
+      { color: 'rgba(255,100,80,0.45)', size: '55%', x: '75%', y: '35%' },
+      { color: 'rgba(160,20,50,0.4)', size: '50%', x: '25%', y: '25%' },
+    ],
+  },
+  {
+    bg: '#060A10',
+    blobs: [
+      { color: 'rgba(50,120,200,0.5)', size: '60%', x: '50%', y: '40%' },
+      { color: 'rgba(180,220,255,0.3)', size: '45%', x: '70%', y: '70%' },
+      { color: 'rgba(80,160,230,0.4)', size: '50%', x: '30%', y: '30%' },
+    ],
+  },
 ]
 
 const sampleEntries: Entry[] = [
@@ -29,7 +71,7 @@ const sampleEntries: Entry[] = [
     photos: [],
     location: 'Casa',
     wordCount: 14,
-    gradient: cardGradients[1],
+    styleIndex: 1,
   },
   {
     id: '5',
@@ -38,7 +80,7 @@ const sampleEntries: Entry[] = [
     mood: { label: 'Pensativa', color: '#7A8BA8' },
     photos: [],
     wordCount: 16,
-    gradient: cardGradients[3],
+    styleIndex: 3,
   },
   {
     id: '4',
@@ -47,7 +89,7 @@ const sampleEntries: Entry[] = [
     mood: { label: 'Agradecida', color: '#D4507A' },
     photos: [],
     wordCount: 13,
-    gradient: cardGradients[0],
+    styleIndex: 0,
   },
   {
     id: '3',
@@ -57,7 +99,7 @@ const sampleEntries: Entry[] = [
     photos: [],
     location: 'Palermo, Buenos Aires',
     wordCount: 15,
-    gradient: cardGradients[2],
+    styleIndex: 2,
   },
   {
     id: '2',
@@ -66,7 +108,7 @@ const sampleEntries: Entry[] = [
     mood: { label: 'Inquieta', color: '#2B8FD4' },
     photos: [],
     wordCount: 15,
-    gradient: cardGradients[4],
+    styleIndex: 4,
   },
   {
     id: '1',
@@ -75,7 +117,7 @@ const sampleEntries: Entry[] = [
     mood: { label: 'Emocionada', color: '#E8836B' },
     photos: [],
     wordCount: 14,
-    gradient: cardGradients[5],
+    styleIndex: 5,
   },
 ]
 
@@ -206,52 +248,62 @@ export default function Feed({ onNewEntry }: FeedProps) {
       {/* Entries grid */}
       <div className="px-4 relative z-10">
         <div className="grid grid-cols-2 gap-3">
-          {entries.map((entry) => (
-            <button
-              key={entry.id}
-              className="relative aspect-square text-left rounded-[20px] overflow-hidden transition-all duration-200 active:scale-[0.96]"
-              style={{
-                background: entry.gradient,
-                border: '1px solid rgba(255,255,255,0.1)',
-                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.12), 0 4px 20px rgba(0,0,0,0.3)',
-              }}
-            >
-              {/* Blur blobs */}
-              <div
-                className="absolute -top-6 -right-6 w-24 h-24 rounded-full opacity-40"
-                style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%)', filter: 'blur(20px)' }}
-              />
-              <div
-                className="absolute -bottom-4 -left-4 w-20 h-20 rounded-full opacity-30"
-                style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)', filter: 'blur(16px)' }}
-              />
+          {entries.map((entry) => {
+            const style = cardStyles[entry.styleIndex]
+            return (
+              <button
+                key={entry.id}
+                className="relative aspect-square text-left rounded-[20px] overflow-hidden transition-all duration-200 active:scale-[0.96]"
+                style={{
+                  background: style.bg,
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
+                }}
+              >
+                {/* Glowing color blobs */}
+                {style.blobs.map((blob, i) => (
+                  <div
+                    key={i}
+                    className="absolute rounded-full"
+                    style={{
+                      background: `radial-gradient(circle, ${blob.color} 0%, transparent 70%)`,
+                      width: blob.size,
+                      height: blob.size,
+                      left: blob.x,
+                      top: blob.y,
+                      transform: 'translate(-50%, -50%)',
+                      filter: 'blur(25px)',
+                    }}
+                  />
+                ))}
 
-              {/* Glass overlay */}
-              <div
-                className="absolute inset-0"
-                style={{ background: 'linear-gradient(180deg, transparent 0%, rgba(5,5,8,0.3) 60%, rgba(5,5,8,0.6) 100%)' }}
-              />
+                {/* Subtle vignette */}
+                <div
+                  className="absolute inset-0"
+                  style={{ background: 'radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.4) 100%)' }}
+                />
 
-              {/* Content */}
-              <div className="relative z-10 flex flex-col justify-between h-full p-4">
-                <div>
-                  <div className="flex items-center gap-1.5 mb-1">
-                    {entry.mood && (
-                      <span className="w-2 h-2 rounded-full" style={{ background: entry.mood.color, boxShadow: `0 0 6px ${entry.mood.color}` }} />
-                    )}
-                    <span className="text-[0.65rem] font-medium text-white/50">{entry.mood?.label}</span>
+                {/* Content */}
+                <div className="relative z-10 flex flex-col justify-between h-full p-4">
+                  <div>
+                    <div className="flex items-center gap-1.5 mb-1">
+                      {entry.mood && (
+                        <span className="w-2 h-2 rounded-full" style={{ background: entry.mood.color, boxShadow: `0 0 8px ${entry.mood.color}` }} />
+                      )}
+                      <span className="text-[0.65rem] font-medium text-white/60">{entry.mood?.label}</span>
+                    </div>
+                    <span className="text-[0.6rem] text-white/30">
+                      {entry.date.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })}
+                    </span>
                   </div>
-                  <span className="text-[0.6rem] text-white/30">
-                    {entry.date.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' })}
-                  </span>
-                </div>
 
-                <p className="text-[0.8rem] leading-[1.35] text-white/75 line-clamp-3">
-                  {entry.text}
-                </p>
-              </div>
-            </button>
-          ))}
+                  <p className="text-[0.8rem] leading-[1.35] text-white/80 line-clamp-3">
+                    {entry.text}
+                  </p>
+                </div>
+              </button>
+            )
+          })}
         </div>
       </div>
 
